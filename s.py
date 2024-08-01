@@ -10,6 +10,8 @@ import pyautogui
 from ctypes import cast, POINTER
 from comtypes import CLSCTX_ALL
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume    
+import tkinter as tk
+
 
 
 pyautogui.FAILSAFE = False
@@ -25,9 +27,14 @@ all_keys = [
     'insert', 'scroll lock', 'print screen', 'windows', 'menu', 'application'
 ]
 
-
-screen_width = 1920
-screen_height = 1080
+# get screen resolution
+root = tk.Tk()
+root.withdraw()
+screen_width = root.winfo_screenwidth()
+screen_height = root.winfo_screenheight()
+# screen_width = 1920
+# screen_height = 1080
+root.destroy()
 
 
 link = 'https://www.myinstants.com/media/sounds/rap-gemi2.mp3'
