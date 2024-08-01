@@ -1,0 +1,8 @@
+requests
+pycaw
+comtypes
+pygame
+keyboard
+mouse
+pyautogui
+tk
